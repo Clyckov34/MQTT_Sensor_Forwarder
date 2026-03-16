@@ -3,6 +3,7 @@ package main
 import (
 	"MQTT/internal/app"
 	"MQTT/pkg/env"
+	"fmt"
 
 	"log"
 	"os"
@@ -31,7 +32,12 @@ func init() {
 }
 
 func main() {
-	if err := app.Run(params); err != nil {
+	res, err := app.Run(params)
+	if err != nil {
 		log.Fatalln(err)
+	}
+
+	for k, v := range res {
+		fmt.Println(k + " - " + v)
 	}
 }

@@ -4,6 +4,7 @@ import (
 	"MQTT/internal/clientMQTT"
 	"MQTT/pkg/env"
 	"fmt"
+	"sync"
 	"time"
 
 	mqtt "github.com/eclipse/paho.mqtt.golang"
@@ -11,52 +12,78 @@ import (
 
 type topic map[string]byte
 
-var driver = "/devices/energy_constant/controls/value"
+var (
+	Res   = make(map[string]string)
+	resMu sync.RWMutex
+)
 
-// Run запуск приложение
-func Run(s *env.Server) error {
+func Run(s *env.Server) (map[string]string, error) {
 	clientOpt, err := clientMQTT.New(s)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	client := mqtt.NewClient(clientOpt)
-	if token := client.Connect(); token.Wait() && token.Error() != nil {
-		return token.Error()
+	if token := client.Connect(); token.WaitTimeout(10*time.Second) && token.Error() != nil {
+		return nil, token.Error()
+	}
+	defer client.Disconnect(250)
+
+	// Создаём map[string]byte для SubscribeMultiple
+	filters := filter()
+
+	token := client.SubscribeMultiple(filters, message)
+	if token.WaitTimeout(10*time.Second) && token.Error() != nil {
+		return nil, token.Error()
 	}
 
-	token := client.SubscribeMultiple(filter(), message)
-	if token.Wait() && token.Error() != nil {
-		return token.Error()
+	// Ждём 60 секунд или прерываемся по сигналу
+	done := make(chan bool, 1)
+	time.AfterFunc(5*time.Second, func() {
+		done <- true
+	})
+
+	<-done
+
+	// Отписываемся от топиков — передаём именно топики (ключи из filters)
+	topics := make([]string, 0, len(filters))
+	for t := range filters {
+		topics = append(topics, t)
+	}
+	unsubToken := client.Unsubscribe(topics...)
+	if unsubToken.WaitTimeout(5*time.Second) && unsubToken.Error() != nil {
+		return nil, unsubToken.Error()
 	}
 
-	// for i := 0; i < 5; i++ {
-	// 	text := fmt.Sprintf("this is msg #%d!", i)
-	// 	token := client.Publish(driver, 0, false, text)
-	// 	token.Wait()
-	// }
-
-	token = client.Unsubscribe(driver)
-	if token.Wait() && token.Error() != nil {
-		return err
-	}
-
-	time.Sleep(5 * time.Second)
-
-	client.Disconnect(250)
-	time.Sleep(1 * time.Second)
-	return nil
+	return Res, nil
 }
 
-// filter фильтр топиков
 func filter() topic {
 	return topic{
-		driver: 2,
+		"/devices/sauna_heater_ssr/controls/tempSetpoint_ssr": 2,
+		"/devices/wb-adc/controls/Vin":                        2,
 	}
 }
 
-// message сообщение
 func message(client mqtt.Client, msg mqtt.Message) {
-	fmt.Printf("TOPIC: %s\n", msg.Topic())
-	fmt.Printf("MSG: %s\n", msg.Payload())
+	defer func() {
+		if r := recover(); r != nil {
+			fmt.Printf("Recovered in message: %v\n", r)
+		}
+	}()
+
+	resMu.Lock()
+	defer resMu.Unlock()
+	Res[msg.Topic()] = string(msg.Payload())
+}
+
+func getResults() map[string]string {
+	resMu.RLock()
+	defer resMu.RUnlock()
+
+	result := make(map[string]string, len(Res))
+	for k, v := range Res {
+		result[k] = v
+	}
+	return result
 }
