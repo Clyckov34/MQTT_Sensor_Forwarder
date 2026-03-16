@@ -3,7 +3,7 @@ package clientMQTT
 import (
 	"MQTT/internal/clientMQTT/service"
 	"MQTT/pkg/env"
-	"fmt"
+	"log"
 	"sync"
 	"time"
 
@@ -13,8 +13,8 @@ import (
 type Topic map[string]string
 
 var (
-	Res   = make(Topic)
-	resMu sync.RWMutex
+	Topics = make(Topic)
+	resMu  sync.RWMutex
 )
 
 func RunApp(s *env.Server) (Topic, error) {
@@ -40,7 +40,7 @@ func RunApp(s *env.Server) (Topic, error) {
 	messageHandler := func(client mqtt.Client, msg mqtt.Message) {
 		defer func() {
 			if r := recover(); r != nil {
-				fmt.Printf("Recovered in message: %v\n", r)
+				log.Printf("Recovered in message: %v\n", r)
 			}
 		}()
 
@@ -48,10 +48,10 @@ func RunApp(s *env.Server) (Topic, error) {
 		defer resMu.Unlock()
 
 		// Считаем только первое сообщение по топику
-		if _, exists := Res[msg.Topic()]; !exists {
+		if _, exists := Topics[msg.Topic()]; !exists {
 			received++
 		}
-		Res[msg.Topic()] = string(msg.Payload())
+		Topics[msg.Topic()] = string(msg.Payload())
 
 		// Если получили все ожидаемые топики, сигнализируем о завершении
 		if received >= expectedTopics {
@@ -91,9 +91,9 @@ func getResults() Topic {
 	resMu.RLock()
 	defer resMu.RUnlock()
 
-	result := make(Topic, len(Res))
-	for k, v := range Res {
-		result[k] = v
+	result := make(Topic, len(Topics))
+	for key, value := range Topics {
+		result[key] = value
 	}
 	return result
 }
