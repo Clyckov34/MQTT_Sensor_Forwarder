@@ -13,7 +13,7 @@ import (
 type Topic map[string]string
 
 var (
-	Topics = make(Topic)
+	topics = make(Topic)
 	resMu  sync.RWMutex
 )
 
@@ -48,10 +48,10 @@ func RunApp(s *env.Server) (Topic, error) {
 		defer resMu.Unlock()
 
 		// Считаем только первое сообщение по топику
-		if _, exists := Topics[msg.Topic()]; !exists {
+		if _, exists := topics[msg.Topic()]; !exists {
 			received++
 		}
-		Topics[msg.Topic()] = string(msg.Payload())
+		topics[msg.Topic()] = string(msg.Payload())
 
 		// Если получили все ожидаемые топики, сигнализируем о завершении
 		if received >= expectedTopics {
@@ -91,8 +91,8 @@ func getResults() Topic {
 	resMu.RLock()
 	defer resMu.RUnlock()
 
-	result := make(Topic, len(Topics))
-	for key, value := range Topics {
+	result := make(Topic, len(topics))
+	for key, value := range topics {
 		result[key] = value
 	}
 	return result
