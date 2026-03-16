@@ -1,7 +1,7 @@
-package app
+package clientMQTT
 
 import (
-	"MQTT/internal/clientMQTT"
+	"MQTT/internal/clientMQTT/service"
 	"MQTT/pkg/env"
 	"fmt"
 	"sync"
@@ -10,15 +10,13 @@ import (
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 )
 
-type Topic map[string]byte
-
 var (
 	Res   = make(map[string]string)
 	resMu sync.RWMutex
 )
 
-func Run(s *env.Server, t *Topic) (map[string]string, error) {
-	clientOpt, err := clientMQTT.New(s)
+func RunApp(s *env.Server) (map[string]string, error) {
+	clientOpt, err := service.NewClient(s)
 	if err != nil {
 		return nil, err
 	}
@@ -29,7 +27,7 @@ func Run(s *env.Server, t *Topic) (map[string]string, error) {
 	}
 	defer client.Disconnect(250)
 
-	filters := *t
+	filters := *service.GetTopik()
 	expectedTopics := len(filters)
 	received := 0
 
@@ -78,7 +76,6 @@ func Run(s *env.Server, t *Topic) (map[string]string, error) {
 		topics = append(topics, t)
 	}
 
-	// Отписываемся от топиков
 	unsubToken := client.Unsubscribe(topics...)
 	if unsubToken.WaitTimeout(5*time.Second) && unsubToken.Error() != nil {
 		return nil, unsubToken.Error()
@@ -87,6 +84,7 @@ func Run(s *env.Server, t *Topic) (map[string]string, error) {
 	return getResults(), nil
 }
 
+// getResults получаем готовые топики с данными
 func getResults() map[string]string {
 	resMu.RLock()
 	defer resMu.RUnlock()

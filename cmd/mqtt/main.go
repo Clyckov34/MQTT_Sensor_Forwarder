@@ -1,7 +1,7 @@
 package main
 
 import (
-	"MQTT/internal/app"
+	"MQTT/internal/clientMQTT"
 	"MQTT/pkg/env"
 	"fmt"
 
@@ -32,17 +32,12 @@ func init() {
 }
 
 func main() {
-	filter := &app.Topic{
-		"/devices/sauna_heater_ssr/controls/tempSetpoint_ssr": 2,
-		"/devices/wb-adc/controls/Vin":                        2,
-	}
-
-	res, err := app.Run(params, filter)
+	topiks, err := clientMQTT.RunApp(params)
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	for k, v := range res {
+	for k, v := range topiks {
 		fmt.Println(k + " - " + v)
 	}
 }
