@@ -32,7 +32,12 @@ func init() {
 }
 
 func main() {
-	res, err := app.Run(params)
+	filter := &app.Topic{
+		"/devices/sauna_heater_ssr/controls/tempSetpoint_ssr": 2,
+		"/devices/wb-adc/controls/Vin":                        2,
+	}
+
+	res, err := app.Run(params, filter)
 	if err != nil {
 		log.Fatalln(err)
 	}

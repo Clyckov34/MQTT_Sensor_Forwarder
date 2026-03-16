@@ -10,14 +10,14 @@ import (
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 )
 
-type topic map[string]byte
+type Topic map[string]byte
 
 var (
 	Res   = make(map[string]string)
 	resMu sync.RWMutex
 )
 
-func Run(s *env.Server) (map[string]string, error) {
+func Run(s *env.Server, t *Topic) (map[string]string, error) {
 	clientOpt, err := clientMQTT.New(s)
 	if err != nil {
 		return nil, err
@@ -29,52 +29,62 @@ func Run(s *env.Server) (map[string]string, error) {
 	}
 	defer client.Disconnect(250)
 
-	// Создаём map[string]byte для SubscribeMultiple
-	filters := filter()
+	filters := *t
+	expectedTopics := len(filters)
+	received := 0
 
-	token := client.SubscribeMultiple(filters, message)
+	// Канал для сигналов завершения (буфер 2: на таймаут и на все сообщения)
+	done := make(chan bool, 2)
+
+	// Колбэк для обработки сообщений
+	messageHandler := func(client mqtt.Client, msg mqtt.Message) {
+		defer func() {
+			if r := recover(); r != nil {
+				fmt.Printf("Recovered in message: %v\n", r)
+			}
+		}()
+
+		resMu.Lock()
+		defer resMu.Unlock()
+
+		// Считаем только первое сообщение по топику
+		if _, exists := Res[msg.Topic()]; !exists {
+			received++
+		}
+		Res[msg.Topic()] = string(msg.Payload())
+
+		// Если получили все ожидаемые топики, сигнализируем о завершении
+		if received >= expectedTopics {
+			done <- true
+		}
+	}
+
+	token := client.SubscribeMultiple(filters, messageHandler)
 	if token.WaitTimeout(10*time.Second) && token.Error() != nil {
 		return nil, token.Error()
 	}
 
-	// Ждём 60 секунд или прерываемся по сигналу
-	done := make(chan bool, 1)
-	time.AfterFunc(5*time.Second, func() {
+	// Таймаут: 30 секунд — если не все сообщения пришли, всё равно завершаем
+	time.AfterFunc(30*time.Second, func() {
 		done <- true
 	})
 
+	// Ждём любого сигнала: либо все сообщения получены, либо время вышло
 	<-done
 
-	// Отписываемся от топиков — передаём именно топики (ключи из filters)
+	// Отписываемся от топиков
 	topics := make([]string, 0, len(filters))
 	for t := range filters {
 		topics = append(topics, t)
 	}
+
+	// Отписываемся от топиков
 	unsubToken := client.Unsubscribe(topics...)
 	if unsubToken.WaitTimeout(5*time.Second) && unsubToken.Error() != nil {
 		return nil, unsubToken.Error()
 	}
 
-	return Res, nil
-}
-
-func filter() topic {
-	return topic{
-		"/devices/sauna_heater_ssr/controls/tempSetpoint_ssr": 2,
-		"/devices/wb-adc/controls/Vin":                        2,
-	}
-}
-
-func message(client mqtt.Client, msg mqtt.Message) {
-	defer func() {
-		if r := recover(); r != nil {
-			fmt.Printf("Recovered in message: %v\n", r)
-		}
-	}()
-
-	resMu.Lock()
-	defer resMu.Unlock()
-	Res[msg.Topic()] = string(msg.Payload())
+	return getResults(), nil
 }
 
 func getResults() map[string]string {
