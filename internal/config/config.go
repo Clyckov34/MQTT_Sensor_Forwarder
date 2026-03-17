@@ -8,6 +8,7 @@ import (
 
 type Params struct {
 	ServerURL    string
+	ControllerID string
 	MqttURL      string
 	MqttPort     string
 	MqttUserName string
@@ -25,8 +26,8 @@ func LoadFile(path string) error {
 	return nil
 }
 
-// CheckFile проверка данных в файле
-func CheckFile(ser *Params) error {
+// CheckParams проверка данных в файле
+func CheckParams(ser *Params) error {
 	if !checkParam(ser.ClientID) {
 		return errors.New("Не указан CLIENT_ID")
 	} else if !checkParam(ser.ClientToken) {
@@ -37,6 +38,8 @@ func CheckFile(ser *Params) error {
 		return errors.New("Не указан MQTT_URL")
 	} else if !checkParam(ser.MqttPort) {
 		return errors.New("Не указан MQTT_PORT")
+	} else if !checkParam(ser.ControllerID) {
+		return errors.New("Не указан CONTROLLER_ID")
 	} else {
 		return nil
 	}

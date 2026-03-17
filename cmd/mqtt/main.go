@@ -18,6 +18,7 @@ func init() {
 
 	params = &config.Params{
 		ServerURL:    os.Getenv("SERVER_URL"),
+		ControllerID: os.Getenv("CONTROLLER_ID"),
 		MqttURL:      os.Getenv("MQTT_URL"),
 		MqttPort:     os.Getenv("MQTT_PORT"),
 		MqttUserName: os.Getenv("MQTT_USERNAME"),
@@ -26,7 +27,7 @@ func init() {
 		ClientToken:  os.Getenv("CLIENT_TOKEN"),
 	}
 
-	err := config.CheckFile(params)
+	err := config.CheckParams(params)
 	if err != nil {
 		log.Fatalln(err)
 	}

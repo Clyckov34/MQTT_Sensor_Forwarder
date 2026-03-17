@@ -1,0 +1,16 @@
+{
+    "topics": [
+        {
+            "title": "Название топика 1",
+            "description": "Описание топика",
+            "type": "temperature",
+            "path": "/devices/wb-m1w2_34/controls/External_Sensor_1"
+        },
+        {
+            "title": "Название топика 2",
+            "description": "Описание топика",
+            "type": "temperature",
+            "path": "/devices/wb-m1w2_34/controls/External_Sensor_2"
+        }
+    ]
+}
