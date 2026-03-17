@@ -2,21 +2,21 @@ package main
 
 import (
 	"MQTT/internal/clientMQTT"
-	"MQTT/pkg/env"
+	"MQTT/internal/config"
 	"fmt"
 
 	"log"
 	"os"
 )
 
-var params *env.Server
+var params *config.Server
 
 func init() {
-	if err := env.LoadFile("./app.env"); err != nil {
+	if err := config.LoadFile("./app.env"); err != nil {
 		log.Fatalln(err)
 	}
 
-	params = &env.Server{
+	params = &config.Server{
 		MqttURL:      os.Getenv("MQTT_URL"),
 		MqttPort:     os.Getenv("MQTT_PORT"),
 		MqttUserName: os.Getenv("MQTT_USERNAME"),
@@ -25,7 +25,7 @@ func init() {
 		ClientToken:  os.Getenv("CLIENT_TOKEN"),
 	}
 
-	err := env.CheckFile(params)
+	err := config.CheckFile(params)
 	if err != nil {
 		log.Fatalln(err)
 	}

@@ -1,8 +1,7 @@
 package clientMQTT
 
 import (
-	"MQTT/internal/clientMQTT/service"
-	"MQTT/pkg/env"
+	"MQTT/internal/config"
 	"log"
 	"sync"
 	"time"
@@ -10,15 +9,15 @@ import (
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 )
 
-type Topic map[string]string
+type indication map[string]string
 
 var (
-	topics = make(Topic)
+	topics = make(indication)
 	resMu  sync.RWMutex
 )
 
-func RunApp(s *env.Server) (Topic, error) {
-	clientOpt, err := service.NewClient(s)
+func RunApp(s *config.Server) (indication, error) {
+	clientOpt, err := newClient(s)
 	if err != nil {
 		return nil, err
 	}
@@ -29,7 +28,7 @@ func RunApp(s *env.Server) (Topic, error) {
 	}
 	defer client.Disconnect(250)
 
-	filters := *service.GetTopik()
+	filters := getTopik()
 	expectedTopics := len(filters)
 	received := 0
 
@@ -83,15 +82,15 @@ func RunApp(s *env.Server) (Topic, error) {
 		return nil, unsubToken.Error()
 	}
 
-	return getResults(), nil
+	return getIndication(), nil
 }
 
-// getResults получаем готовые топики с данными
-func getResults() Topic {
+// getIndication получаем готовые топики с данными
+func getIndication() indication {
 	resMu.RLock()
 	defer resMu.RUnlock()
 
-	result := make(Topic, len(topics))
+	result := make(indication, len(topics))
 	for key, value := range topics {
 		result[key] = value
 	}

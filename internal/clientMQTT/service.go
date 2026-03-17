@@ -1,17 +1,17 @@
-package service
+package clientMQTT
 
 import (
-	"MQTT/pkg/env"
+	"MQTT/internal/config"
 	"fmt"
 	"time"
 
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 )
 
-type Topic map[string]byte
+type topic map[string]byte
 
 // NewClient инциализация приложение
-func NewClient(s *env.Server) (*mqtt.ClientOptions, error) {
+func newClient(s *config.Server) (*mqtt.ClientOptions, error) {
 	opt := mqtt.NewClientOptions()
 	opt.AddBroker(fmt.Sprintf("tcp://%v:%v", s.MqttURL, s.MqttPort))
 
@@ -28,9 +28,9 @@ func NewClient(s *env.Server) (*mqtt.ClientOptions, error) {
 	return opt, nil
 }
 
-// GetTopik получить топик
-func GetTopik() *Topic {
-	return &Topic{
+// getTopik получить топик
+func getTopik() topic {
+	return topic{
 		"/devices/sauna_heater_ssr/controls/tempSetpoint_ssr":  2,
 		"/devices/wb-adc/controls/Vin":                         2,
 		"/devices/hwmon/controls/Board Temperature":            2,
