@@ -1,6 +1,14 @@
 {
     "topics": [
         {
+            "path": "/devices/hwmon/controls/Board Temperature",
+            "level_qos": 1
+        },
+        {
+            "path": "/devices/hwmon/controls/CPU Temperature",
+            "level_qos": 1
+        },
+        {
             "path": "/devices/wb-m1w2_34/controls/External_Sensor_1",
             "level_qos": 1
         },
@@ -14,14 +22,6 @@
         },
         {
             "path": "/devices/wb-adc/controls/Vin",
-            "level_qos": 1
-        },
-        {
-            "path": "/devices/hwmon/controls/Board Temperature",
-            "level_qos": 1
-        },
-        {
-            "path": "/devices/hwmon/controls/CPU Temperature",
             "level_qos": 1
         },
         {

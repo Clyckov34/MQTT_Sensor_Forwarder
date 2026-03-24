@@ -21,3 +21,18 @@
         </ul>
     </ol>
 </div>
+
+```json
+{
+    "topics": [
+        {
+            "path": "/devices/hwmon/controls/Board Temperature",
+            "level_qos": 1
+        },
+        {
+            "path": "/devices/hwmon/controls/CPU Temperature",
+            "level_qos": 1
+        }
+    ]
+}
+```
