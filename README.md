@@ -1,51 +1,61 @@
 <div>
-    <center><h1>Документация</h1></center>
-    <p>Скрипт подключается к серверу MQTT запрашивает данные датчиков которые указаны в файле <b>topic.json</b> и отправляет на указанный сервер</p>
-</div>    
-<div>
-    <h2>Настройка скрипта ENV</h2>
-    <h3>Настройка окружение:</h3>
-    <ol>
-        <li>Откройте файл <b>app.env</b></li>
-        <li>Укажите требуемые параметры</li>
-        <ul>
-            <li><code>SERVER_URL</code> - Адрес сервера куда будут отправляться показание датчиков</li>
-            <li><code>CONTROLLER_ID</code> - Индификатор констролера</li>
-            <li><code>CLIENT_ID</code> - Индификатор клиента</li>
-            <li><code>CLIENT_TOKEN</code> - Токен клиента</li>
-            <li><code>MQTT_URL</code> - URL (IP) адрес MQTT cервера</li>
-            <li><code>MQTT_PORT</code> - Порт MQTT сервера</li>
-            <li><code>MQTT_TOPIC_FILE</code> - Путь к файлу JSON с topic</li>
-            <li><code>MQTT_USERNAME</code> - Логин MQTT сервера <code>Дополнительное поле</code></li>
-            <li><code>MQTT_PASSWORD</code> - Пароль MQTT сервера <code>Дополнительное поле</code></li> 
-        </ul>
-    </ol>
+    <center><h1>🚀 MQTT Sensor Forwarder</h1></center>
+    <p>Скрипт для получения данных с MQTT-сервера и отправки их на внешний API.
+Он подписывается на указанные MQTT-топики, получает данные с датчиков и пересылает их на заданный сервер.</p>
 </div>
 <div>
-    <h2>Структура JSON файла топиков</h2>
-    <p>По которым будут делаться запросы:</p>
+    <h2>📌 Возможности</h2>
     <ul>
-        <li><code>path</code> - Путь MQTT-топик</li>
-        <li><code>level_qos</code> - Уровень QoS</li>
-        <ol>
-            <li><code>QQoS 0 (At most once)</code> - сообщение доставляется только один раз, без подтверждения доставки. Используется для данных, где потеря сообщения не критична (например, мониторинг погодных условий)</li>
-            <li><code>QoS 1 (At least once)</code> - сообщение гарантированно доставляется как минимум один раз, но возможны дублирования. Подходит для приложений, где важна доставка, но дублирование допустимо (например, оповещения)</li>
-            <li><code>QoS 2 (Exactly once)</code> - сообщение доставляется ровно один раз, что исключает вероятность дублирования. Наиболее надёжен, но требует дополнительных затрат на обработку сообщений, что может увеличить задержку <b>(Не рекомендуется если очень много датчиков, может переполнить Брокер)</b></li>
-        </ol>
+        <li>Подключение к MQTT-брокеру</li>
+        <li>Подписка на список топиков из JSON-файла</li>
+        <li>Поддержка QoS 0 / 1 / 2</li>
+        <li>Отправка данных на HTTP-сервер</li>
+        <li>Поддержка авторизации MQTT</li>
     </ul>
 </div>
+<div>
+    <h2>🔧 Настройка</h2>
+    <h3>1. Настройка окружения</h3>
+    <p>Откройте файл app.env и укажите параметры:</p>
+    <ul>
+        <li><code>SERVER_URL</code> - Адрес сервера куда будут отправляться показание датчиков</li>
+        <li><code>CONTROLLER_ID</code> - Индификатор констролера</li>
+        <li><code>CLIENT_ID</code> - Индификатор клиента</li>
+        <li><code>CLIENT_TOKEN</code> - Токен клиента</li>
+        <li><code>MQTT_URL</code> - URL (IP) адрес MQTT cервера</li>
+        <li><code>MQTT_PORT</code> - Порт MQTT сервера</li>
+        <li><code>MQTT_TOPIC_FILE</code> - Путь к файлу JSON с topic</li>
+        <li><code>MQTT_USERNAME</code> - Логин MQTT сервера <code>Дополнительное поле</code></li>
+        <li><code>MQTT_PASSWORD</code> - Пароль MQTT сервера <code>Дополнительное поле</code></li> 
+    </ul>
+</div>
+<div>
+    <h3>2. Настройка топиков</h3>
+    <p>Файл topic.json содержит список топиков:</p>
 
 ```json
 {
-    "topics": [
-        {
-            "path": "/devices/hwmon/controls/Board Temperature",
-            "level_qos": 1
-        },
-        {
-            "path": "/devices/hwmon/controls/CPU Temperature",
-            "level_qos": 1
-        }
-    ]
+  "topics": [
+    {
+      "path": "/devices/hwmon/controls/Board Temperature",
+      "level_qos": 1
+    },
+    {
+      "path": "/devices/hwmon/controls/CPU Temperature",
+      "level_qos": 1
+    }
+  ]
 }
 ```
+
+</div>
+<div>
+    <h2>📡 QoS уровни</h2>
+
+| Уровень   | Описание                                      |
+| --------- | --------------------------------------------- |
+| **QoS 0** | Максимум один раз (без гарантии доставки)     |
+| **QoS 1** | Минимум один раз (возможны дубликаты)         |
+| **QoS 2** | Ровно один раз (самый надёжный, но медленный) |
+
+</div>
