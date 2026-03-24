@@ -7,42 +7,6 @@
         {
             "path": "/devices/hwmon/controls/CPU Temperature",
             "level_qos": 1
-        },
-        {
-            "path": "/devices/wb-m1w2_34/controls/External_Sensor_1",
-            "level_qos": 1
-        },
-        {
-            "path": "/devices/wb-m1w2_34/controls/External_Sensor_2",
-            "level_qos": 1
-        },
-        {
-            "path": "/devices/sauna_heater_ssr/controls/tempSetpoint_ssr",
-            "level_qos": 1
-        },
-        {
-            "path": "/devices/wb-adc/controls/Vin",
-            "level_qos": 1
-        },
-        {
-            "path": "/devices/sauna_floor_thermostat/controls/temperature",
-            "level_qos": 1
-        },
-        {
-            "path": "/devices/sauna_heater/controls/tempCurrent",
-            "level_qos": 1
-        },
-        {
-            "path": "/devices/wb-mr6cu_85/controls/MCU Temperature",
-            "level_qos": 1
-        },
-        {
-            "path": "/devices/wb-w1/controls/28-0000102149e4",
-            "level_qos": 1
-        },
-        {
-            "path": "/devices/wb-w1/controls/28-00001021f4a9",
-            "level_qos": 1
         }
     ]
 }
