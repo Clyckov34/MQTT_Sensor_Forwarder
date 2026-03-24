@@ -3,13 +3,14 @@ package mqtt
 import (
 	"MQTT/internal/config"
 	"log"
+	"strconv"
 	"sync"
 	"time"
 
 	mt "github.com/eclipse/paho.mqtt.golang"
 )
 
-type indication map[string]string
+type indication map[string]float64
 
 var (
 	topics = make(indication)
@@ -27,7 +28,7 @@ func RunApp(s *config.Params) (indication, error) {
 		return nil, token.Error()
 	}
 	defer client.Disconnect(250)
-	
+
 	filters, err := getTopik(s.MqttTopicFile)
 	if err != nil {
 		return nil, err
@@ -54,7 +55,13 @@ func RunApp(s *config.Params) (indication, error) {
 		if _, exists := topics[msg.Topic()]; !exists {
 			received++
 		}
-		topics[msg.Topic()] = string(msg.Payload())
+
+		payLoadFloat, err := strconv.ParseFloat(string(msg.Payload()), 64)
+		if err != nil {
+			log.Println(err)
+		}
+
+		topics[msg.Topic()] = float64(payLoadFloat)
 
 		// Если получили все ожидаемые топики, сигнализируем о завершении
 		if received >= expectedTopics {

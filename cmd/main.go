@@ -3,7 +3,6 @@ package main
 import (
 	"MQTT/internal/config"
 	"MQTT/internal/mqtt"
-	"fmt"
 
 	"log"
 	"os"
@@ -35,12 +34,17 @@ func init() {
 }
 
 func main() {
+	// Запрашиваем готовые топики с покозаниями
 	topiks, err := mqtt.RunApp(params)
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	for k, v := range topiks {
-		fmt.Println(k + " - " + v)
+	// Отправляем данные на сервер
+	status, err := mqtt.SendJson(params.ServerURL, topiks)
+	if err != nil {
+		log.Fatalln(err)
 	}
+
+	log.Println("Status: " + status)
 }
