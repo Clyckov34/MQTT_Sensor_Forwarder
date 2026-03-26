@@ -23,7 +23,7 @@ func init() {
 		MqttUserName:  os.Getenv("MQTT_USERNAME"),
 		MqttPassword:  os.Getenv("MQTT_PASSWORD"),
 		MqttTopicFile: os.Getenv("MQTT_TOPIC_FILE"),
-		ClientID:      os.Getenv("CLIENT_ID"),
+		ClientEmail:   os.Getenv("CLIENT_EMAIL"),
 		ClientToken:   os.Getenv("CLIENT_TOKEN"),
 	}
 

@@ -14,7 +14,7 @@ type Params struct {
 	MqttUserName  string
 	MqttPassword  string
 	MqttTopicFile string
-	ClientID      string
+	ClientEmail   string
 	ClientToken   string
 }
 
@@ -29,8 +29,8 @@ func LoadFile(path string) error {
 
 // CheckParams проверка данных в файле
 func CheckParams(ser *Params) error {
-	if !checkParam(ser.ClientID) {
-		return errors.New("Не указан CLIENT_ID")
+	if !checkParam(ser.ClientEmail) {
+		return errors.New("Не указан CLIENT_EMAIL")
 	} else if !checkParam(ser.ClientToken) {
 		return errors.New("Не указан CLIENT_TOKEN")
 	} else if !checkParam(ser.ServerURL) {

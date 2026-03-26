@@ -41,7 +41,7 @@ $ cd WB-8
     <ul>
         <li><code>SERVER_URL</code> - Адрес сервера куда будут отправляться показание датчиков</li>
         <li><code>CONTROLLER_ID</code> - Индификатор констролера</li>
-        <li><code>CLIENT_ID</code> - Индификатор клиента</li>
+        <li><code>CLIENT_EMAIL</code> - Почта клиента</li>
         <li><code>CLIENT_TOKEN</code> - Токен клиента</li>
         <li><code>MQTT_URL</code> - URL (IP) адрес MQTT cервера</li>
         <li><code>MQTT_PORT</code> - Порт MQTT сервера</li>
