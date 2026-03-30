@@ -3,7 +3,12 @@
     <p>Утилита для сбора данных с MQTT-брокера и их передачи на внешний HTTP API. Подписывается на заданные топики, обрабатывает сообщения от датчиков и отправляет их на удалённый сервер.</p>
 </div>
 
+![GitHub release](https://img.shields.io/github/v/release/Clyckov34/MQTT_Sensor_Forwarder)
 ![License](https://img.shields.io/badge/license-MIT-green)
+![Go](https://img.shields.io/badge/Go-1.20+-00ADD8?logo=go)
+![Status](https://img.shields.io/badge/status-active-success)
+![Last Commit](https://img.shields.io/github/last-commit/Clyckov34/MQTT_Sensor_Forwarder)
+![Stars](https://img.shields.io/github/stars/Clyckov34/MQTT_Sensor_Forwarder?style=social)
 
 <div>
     <h2>📌 Возможности</h2>
