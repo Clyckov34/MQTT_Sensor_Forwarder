@@ -80,3 +80,23 @@ $ cd WB-8
 | **QoS 2** | Ровно один раз (самый надёжный, но медленный) |
 
 </div>
+<div>
+    <h2>📤 Пример вывода</h2>
+
+```bash
+/devices/wb-w1/controls/28-00001021f4a9 - 32.187
+/devices/sauna_heater_ssr/controls/tempSetpoint_ssr - 95
+/devices/wb-m1w2_34/controls/External Sensor_1 - 13.625
+/devices/sauna_heater/controls/tempCurrent - 92.875
+/devices/hwmon/controls/CPU Temperature - 66.218
+Контроллер ID: 000001
+Email: my_mail@yandex.ru
+Токен: igiOA8Xuh0zEdOf5haeX7LOmp1R16AzB
+2026/03/30 21:01:02 Status: 200 OK
+```
+
+</div>
+<div>
+    <h2>📜 Лицензия</h2>
+    <p>MIT License — свободно используйте и модифицируйте.</p>
+</div>

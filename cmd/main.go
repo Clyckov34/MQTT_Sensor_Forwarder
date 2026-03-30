@@ -59,6 +59,6 @@ func infoData(c mqtt.Client) {
 	}
 
 	fmt.Println("Констроллер ID:", c.ControllerID)
-	fmt.Println("Email Клиента:", c.Email)
-	fmt.Println("Токен Клиента:", c.Token)
+	fmt.Println("Email:", c.Email)
+	fmt.Println("Токен:", c.Token)
 }
