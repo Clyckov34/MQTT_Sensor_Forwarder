@@ -89,13 +89,20 @@ $ cd WB-8
 
 </div>
 <div>
+    <h2>▶️ Запуск</h2>
+    <ul>
+        <li><code>$ ./wb8</code> - Запуск скрипта</li>
+        <li><code>$ ./install_autostart.sh</code> - Запуск скрипта с автозапуском cron</li>
+    </ul>
+</div>
+<div>
     <h2>📤 Пример вывода</h2>
 
 ```json
 {
   "server_url": "https://httpbin.org/post",
   "client_email": "my_mail@yandex.ru",
-  "client_token": "igiOA8Xuh0zEdOf5haeX7LOmp1R16AzB",
+  "client_token": "...",
   "controller_id": "000001",
   "sensors": {
     "/devices/hwmon/controls/Board Temperature": 39.25,
@@ -114,4 +121,8 @@ $ cd WB-8
 
 ```
 
+</div>
+<div>
+    <h2>📜 Лицензия</h2>
+    <p>MIT License</p>
 </div>
