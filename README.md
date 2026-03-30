@@ -2,6 +2,9 @@
     <center><h1>🚀 MQTT Sensor Forwarder</h1></center>
     <p>Утилита для сбора данных с MQTT-брокера и их передачи на внешний HTTP API. Подписывается на заданные топики, обрабатывает сообщения от датчиков и отправляет их на удалённый сервер.</p>
 </div>
+
+![License](https://img.shields.io/badge/license-MIT-green)
+
 <div>
     <h2>📌 Возможности</h2>
     <ul>
