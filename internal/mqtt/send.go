@@ -15,8 +15,8 @@ type Client struct {
 	SensorReadings map[string]float64
 }
 
-// SendJson оптравляет данные на сервер
-func SendJson(c Client) (status string, err error) {
+// SendJsonPOST оптравляет данные на сервер методом POST
+func SendJsonPOST(c Client) (status string, err error) {
 	reqBody, err := json.Marshal(c)
 	if err != nil {
 		return "", err
