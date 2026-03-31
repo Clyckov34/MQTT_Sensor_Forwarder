@@ -1,6 +1,6 @@
-<div>
-    <center><h1>🚀 MQTT Sensor Forwarder</h1></center>
-    <p>Утилита для сбора данных с MQTT-брокера и их передачи на внешний HTTP API. Подписывается на заданные топики, обрабатывает сообщения от датчиков и отправляет их на удалённый сервер.</p>
+<div align="center">
+  <h1>🚀 MQTT Sensor Forwarder</h1>
+  <p>Утилита для сбора данных с MQTT-брокера и их отправки на внешний HTTP API</p>
 </div>
 
 ![GitHub release](https://img.shields.io/github/v/release/Clyckov34/MQTT_Sensor_Forwarder)
@@ -19,6 +19,10 @@
         <li>Отправка данных на HTTP-сервер</li>
         <li>Поддержка авторизации MQTT</li>
     </ul>
+</div>
+<div>
+    <h2>🧭 Архитектура</h2>
+    <p>MQTT → MQTT Sensor Forwarder → HTTP API</p>
 </div>
 <div>
     <h2>📂 Структура проекта</h2>
@@ -47,15 +51,15 @@ $ cd WB-8
     <h3>1. Настройка окружения</h3>
     <p>Откройте файл app.env и укажите параметры:</p>
     <ul>
-        <li><code>SERVER_URL</code> - Адрес сервера куда будут отправляться показание датчиков</li>
-        <li><code>CONTROLLER_ID</code> - Индификатор констролера</li>
+        <li><code>SERVER_URL</code> - Адрес сервера куда будут отправляться показания датчиков</li>
+        <li><code>CONTROLLER_ID</code> - Идентификатор контроллера</li>
         <li><code>CLIENT_EMAIL</code> - Почта клиента</li>
         <li><code>CLIENT_TOKEN</code> - Токен клиента</li>
         <li><code>MQTT_URL</code> - URL (IP) адрес MQTT cервера</li>
-        <li><code>MQTT_PORT</code> - Порт MQTT сервера</li>
-        <li><code>MQTT_TOPIC_FILE</code> - Путь к файлу JSON с topic</li>
-        <li><code>MQTT_USERNAME</code> - Логин MQTT сервера <code>Дополнительное поле</code></li>
-        <li><code>MQTT_PASSWORD</code> - Пароль MQTT сервера <code>Дополнительное поле</code></li> 
+        <li><code>MQTT_PORT</code> - Порт MQTT-сервера</li>
+        <li><code>MQTT_TOPIC_FILE</code> - Путь к файлу topic.json</li>
+        <li><code>MQTT_USERNAME</code> - Логин MQTT-сервера <code>Дополнительное поле</code></li>
+        <li><code>MQTT_PASSWORD</code> - Пароль MQTT-сервера <code>Дополнительное поле</code></li> 
     </ul>
 </div>
 <div>
@@ -90,10 +94,18 @@ $ cd WB-8
 </div>
 <div>
     <h2>▶️ Запуск</h2>
-    <ul>
-        <li><code>$ ./wb8</code> - Запуск скрипта</li>
-        <li><code>$ ./install_autostart.sh</code> - Запуск скрипта с автозапуском cron</li>
-    </ul>
+<p>Запуск приложения</p>
+
+```bash
+./wb8
+```
+
+<p>Автозапуск приложения с помощью cron</p>
+
+```bash
+./install_autostart.sh
+```
+
 </div>
 <div>
     <h2>📤 Пример вывода</h2>
