@@ -50,7 +50,7 @@ func CheckParams(ser *Params) error {
 
 // checkParam проверка параметров
 func checkParam(param string) bool {
-	if len(param) == 0 {
+	if param == "" {
 		return false
 	}
 
