@@ -3,35 +3,23 @@ package main
 import (
 	"MQTT/internal/config"
 	"MQTT/internal/mqtt"
-	"fmt"
 
 	"log"
-	"os"
 )
 
-var params *config.Params
+var params *config.Config
 
 func init() {
-	if err := config.LoadFile("./config.env"); err != nil {
-		log.Fatalln(err)
-	}
-
-	params = &config.Params{
-		ServerURL:     os.Getenv("SERVER_URL"),
-		ControllerID:  os.Getenv("CONTROLLER_ID"),
-		MqttURL:       os.Getenv("MQTT_URL"),
-		MqttPort:      os.Getenv("MQTT_PORT"),
-		MqttUserName:  os.Getenv("MQTT_USERNAME"),
-		MqttPassword:  os.Getenv("MQTT_PASSWORD"),
-		MqttTopicFile: os.Getenv("MQTT_TOPIC_FILE"),
-		ClientEmail:   os.Getenv("CLIENT_EMAIL"),
-		ClientToken:   os.Getenv("CLIENT_TOKEN"),
-	}
-
-	err := config.CheckParams(params)
+	pr, err := config.LoadEnvFile("./config.env")
 	if err != nil {
 		log.Fatalln(err)
 	}
+
+	if err := pr.ValidateConfig(); err != nil {
+		log.Fatalln(err)
+	}
+
+	params = pr
 }
 
 func main() {
@@ -41,7 +29,7 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	fmt.Println(clientSensor)
+	//fmt.Println(clientSensor)
 
 	// Отправляем данные на сервер
 	statusCode, err := mqtt.SendJsonPOST(clientSensor)

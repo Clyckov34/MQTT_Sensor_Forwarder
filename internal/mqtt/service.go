@@ -22,9 +22,9 @@ type TopicJSON struct {
 }
 
 // NewClient инциализация приложение
-func newClient(s *config.Params) (*mqtt.ClientOptions, error) {
+func newClient(s *config.Config) (*mqtt.ClientOptions, error) {
 	opt := mqtt.NewClientOptions()
-	opt.AddBroker(fmt.Sprintf("tcp://%v:%v", s.MqttURL, s.MqttPort))
+	opt.AddBroker(fmt.Sprintf("tcp://%v:%v", s.MqttServer, s.MqttPort))
 
 	opt.SetClientID("avtomatika_MQT")
 	opt.SetKeepAlive(2 * time.Second)

@@ -69,11 +69,11 @@ $ cd WB-8
     <h3>1. Настройка окружения</h3>
     <p>Откройте файл config.env и укажите параметры:</p>
     <ul>
-        <li><code>SERVER_URL</code> - Адрес сервера куда будут отправляться показания датчиков</li>
+        <li><code>SERVER</code> - Адрес сервера куда будут отправляться показания датчиков</li>
         <li><code>CONTROLLER_ID</code> - Идентификатор контроллера</li>
-        <li><code>CLIENT_EMAIL</code> - Почта клиента</li>
+        <li><code>CLIENT_ID</code> - Почта клиента</li>
         <li><code>CLIENT_TOKEN</code> - Токен клиента</li>
-        <li><code>MQTT_URL</code> - URL (IP) адрес MQTT cервера</li>
+        <li><code>MQTT_SERVER</code> - URL (IP) адрес MQTT cервера</li>
         <li><code>MQTT_PORT</code> - Порт MQTT-сервера</li>
         <li><code>MQTT_TOPIC_FILE</code> - Путь к файлу topic.json</li>
         <li><code>MQTT_USERNAME</code> - Логин MQTT-сервера <code>Дополнительное поле</code></li>

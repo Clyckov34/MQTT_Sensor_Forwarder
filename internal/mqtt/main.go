@@ -17,7 +17,7 @@ var (
 	resMu  sync.RWMutex
 )
 
-func RunApp(s *config.Params) (Client, error) {
+func RunApp(s *config.Config) (Client, error) {
 	clientOpt, err := newClient(s)
 	if err != nil {
 		return Client{}, err
@@ -97,7 +97,7 @@ func RunApp(s *config.Params) (Client, error) {
 }
 
 // getIndication получаем готовые топики с данными
-func getIndication(s *config.Params) Client {
+func getIndication(s *config.Config) Client {
 	resMu.RLock()
 	defer resMu.RUnlock()
 
@@ -106,8 +106,8 @@ func getIndication(s *config.Params) Client {
 		result[key] = value
 	}
 	return Client{
-		ServerUrl:      s.ServerURL,
-		Email:          s.ClientEmail,
+		ServerUrl:      s.Server,
+		ID:             s.ClientID,
 		Token:          s.ClientToken,
 		ControllerID:   s.ControllerID,
 		SensorReadings: result,

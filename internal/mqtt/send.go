@@ -11,9 +11,9 @@ import (
 
 type Client struct {
 	ServerUrl      string
-	Email          string
+	ID             int
 	Token          string
-	ControllerID   string
+	ControllerID   int
 	SensorReadings map[string]float64
 }
 
