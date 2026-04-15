@@ -3,6 +3,7 @@ package main
 import (
 	"MQTT/internal/config"
 	"MQTT/internal/mqtt"
+	"fmt"
 
 	"log"
 )
@@ -29,7 +30,7 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	//fmt.Println(clientSensor)
+	fmt.Println(clientSensor)
 
 	// Отправляем данные на сервер
 	statusCode, err := mqtt.SendJsonPOST(clientSensor)

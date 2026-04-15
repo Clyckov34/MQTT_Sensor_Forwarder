@@ -60,8 +60,8 @@ $ cd WB-8
 
 | Платформа          | Команда |
 |--------------------|--------|
-| Wiren Board (ARMv7) | `GOOS=linux GOARCH=arm GOARM=7 go build -o wb8` |
-| Linux (x64)        | `go build -o wb8` |
+| Wiren Board (ARMv7) | `GOOS=linux GOARCH=arm GOARM=7 go build -o wb8 cmd/main.go` |
+| Linux (x64)        | `go build -o wb8 cmd/main.go` |
 
 </div>
 <div>

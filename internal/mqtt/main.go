@@ -12,11 +12,6 @@ import (
 
 type indication map[string]float64
 
-var (
-	topics = make(indication)
-	resMu  sync.RWMutex
-)
-
 func RunApp(s *config.Config) (Client, error) {
 	clientOpt, err := newClient(s)
 	if err != nil {
@@ -29,18 +24,20 @@ func RunApp(s *config.Config) (Client, error) {
 	}
 	defer client.Disconnect(250)
 
-	filters, err := getTopik(s.MqttTopicFile)
+	topicPathAndQoS, err := getTopikFile(s.MqttTopicFile)
 	if err != nil {
 		return Client{}, err
 	}
 
-	expectedTopics := len(filters)
+	// ЛОКАЛЬНОЕ состояние
+	topics := make(indication)
+	var resMu sync.RWMutex
+
+	expectedTopics := len(topicPathAndQoS)
 	received := 0
 
-	// Канал для сигналов завершения (буфер 2: на таймаут и на все сообщения)
-	done := make(chan bool, 2)
+	done := make(chan struct{}, 1)
 
-	// Колбэк для обработки сообщений
 	messageHandler := func(client mt.Client, msg mt.Message) {
 		defer func() {
 			if r := recover(); r != nil {
@@ -48,63 +45,68 @@ func RunApp(s *config.Config) (Client, error) {
 			}
 		}()
 
+		topic := msg.Topic()
+
+		payload, err := strconv.ParseFloat(string(msg.Payload()), 64)
+		if err != nil {
+			log.Println(err)
+			return
+		}
+
 		resMu.Lock()
 		defer resMu.Unlock()
 
-		// Считаем только первое сообщение по топику
-		if _, exists := topics[msg.Topic()]; !exists {
+		if _, exists := topics[topic]; !exists {
 			received++
 		}
 
-		payLoadFloat, err := strconv.ParseFloat(string(msg.Payload()), 64)
-		if err != nil {
-			log.Println(err)
-		}
+		topics[topic] = payload
 
-		topics[msg.Topic()] = float64(payLoadFloat)
-
-		// Если получили все ожидаемые топики, сигнализируем о завершении
 		if received >= expectedTopics {
-			done <- true
+			select {
+			case done <- struct{}{}:
+			default:
+			}
 		}
 	}
 
-	token := client.SubscribeMultiple(filters, messageHandler)
+	token := client.SubscribeMultiple(topicPathAndQoS, messageHandler)
 	if token.WaitTimeout(10*time.Second) && token.Error() != nil {
 		return Client{}, token.Error()
 	}
 
-	// Таймаут: 30 секунд — если не все сообщения пришли, всё равно завершаем
 	time.AfterFunc(30*time.Second, func() {
-		done <- true
+		select {
+		case done <- struct{}{}:
+		default:
+		}
 	})
 
-	// Ждём любого сигнала: либо все сообщения получены, либо время вышло
 	<-done
 
-	// Отписываемся от топиков
-	topics := make([]string, 0, len(filters))
-	for t := range filters {
-		topics = append(topics, t)
+	// отписка
+	unsubTopics := make([]string, 0, len(topicPathAndQoS))
+	for t := range topicPathAndQoS {
+		unsubTopics = append(unsubTopics, t)
 	}
 
-	unsubToken := client.Unsubscribe(topics...)
+	unsubToken := client.Unsubscribe(unsubTopics...)
 	if unsubToken.WaitTimeout(5*time.Second) && unsubToken.Error() != nil {
 		return Client{}, unsubToken.Error()
 	}
 
-	return getIndication(s), nil
+	return buildClient(s, topics, &resMu), nil
 }
 
-// getIndication получаем готовые топики с данными
-func getIndication(s *config.Config) Client {
-	resMu.RLock()
-	defer resMu.RUnlock()
+func buildClient(s *config.Config, topics indication, mu *sync.RWMutex) Client {
+	mu.RLock()
+	defer mu.RUnlock()
 
 	result := make(indication, len(topics))
-	for key, value := range topics {
-		result[key] = value
+	for k, v := range topics {
+		result[k] = v
 	}
+
 	return Client{
 		ServerUrl:      s.Server,
 		ID:             s.ClientID,

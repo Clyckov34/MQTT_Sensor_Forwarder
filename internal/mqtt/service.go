@@ -13,7 +13,7 @@ import (
 type topic map[string]byte
 
 type TopicsData struct {
-	TopicJSON2 []TopicJSON `json:"topics"`
+	TopicListJSON []TopicJSON `json:"topics"`
 }
 
 type TopicJSON struct {
@@ -39,8 +39,8 @@ func newClient(s *config.Config) (*mqtt.ClientOptions, error) {
 	return opt, nil
 }
 
-// getTopik получить топик
-func getTopik(nameFile string) (topic, error) {
+// getTopikFile получить топик из файла
+func getTopikFile(nameFile string) (topic, error) {
 	byte, err := os.ReadFile(nameFile)
 	if err != nil {
 		return nil, err
@@ -55,7 +55,7 @@ func getTopik(nameFile string) (topic, error) {
 
 	topic := make(topic, 0)
 
-	for _, v := range data.TopicJSON2 {
+	for _, v := range data.TopicListJSON {
 		topic[v.Path] = v.LevelQoS
 	}
 
