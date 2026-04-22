@@ -11,6 +11,9 @@
 ![Stars](https://img.shields.io/github/stars/Clyckov34/MQTT_Sensor_Forwarder?style=social)
 
 <div>
+    <img src="image.jpeg" width="100%">
+</div>
+<div>
     <h2>Особенности:</h2>
     <ul>
         <li>Написана на языке Go, легковесная и производительная</li>
