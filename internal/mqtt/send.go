@@ -10,8 +10,8 @@ import (
 )
 
 type Client struct {
-	ServerUrl      string
-	ID             int
+	Server         string
+	ClientID       int
 	Token          string
 	ControllerID   int
 	SensorReadings map[string]float64
@@ -24,8 +24,10 @@ func SendJsonPOST(c Client) (statusCode int, err error) {
 		return 0, err
 	}
 
+	outputToTerminal(reqBody)
+
 	ctx, _ := context.WithTimeout(context.Background(), time.Duration(10*time.Second))
-	req, err := http.NewRequestWithContext(ctx, http.MethodPost, c.ServerUrl, bytes.NewBuffer(reqBody))
+	req, err := http.NewRequestWithContext(ctx, http.MethodPost, c.Server, bytes.NewBuffer(reqBody))
 	if err != nil {
 		return 0, err
 	}
@@ -45,4 +47,9 @@ func SendJsonPOST(c Client) (statusCode int, err error) {
 	}
 
 	return resp.StatusCode, nil
+}
+
+// outputToTerminal вывводит данные в консоль кльлрые отправит на удаленый сервер
+func outputToTerminal(data []byte) {
+	fmt.Println(string(data))
 }

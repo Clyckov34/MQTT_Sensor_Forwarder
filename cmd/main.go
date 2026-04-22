@@ -30,13 +30,11 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	fmt.Println(clientSensor)
-
 	// Отправляем данные на сервер
 	statusCode, err := mqtt.SendJsonPOST(clientSensor)
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	log.Println("HTTP Status: ", statusCode)
+	fmt.Printf("\nHTTP Status: %v\n", statusCode)
 }

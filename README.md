@@ -131,11 +131,11 @@ $ cd WB-8
 
 ```json
 {
-  "server_url": "https://httpbin.org/post",
-  "client_email": "my_mail@yandex.ru",
-  "client_token": "...",
-  "controller_id": "000001",
-  "sensors": {
+  "Server": "https://httpbin.org/post",
+  "ClientID": "my_mail@yandex.ru",
+  "Token": "...",
+  "ControllerID": "000001",
+  "SensorReadings": {
     "/devices/hwmon/controls/Board Temperature": 39.25,
     "/devices/hwmon/controls/CPU Temperature": 66.835,
     "/devices/sauna_floor_thermostat/controls/temperature": 31.9,
