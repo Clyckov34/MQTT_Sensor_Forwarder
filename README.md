@@ -79,6 +79,25 @@ $ cd WB-8
     </ul>
 </div>
 <div>
+<p>Пример окружение файла config.env</p>
+
+```code
+SERVER = "https://my_server_cloud.ru/post"
+CONTROLLER_ID = "121"
+
+CLIENT_ID = "3241234"
+CLIENT_TOKEN = "qWeRtYuIoPaDfGHhkfwelwfk"
+
+# MQTT
+MQTT_SERVER = "localhost"
+MQTT_PORT = "1883"
+MQTT_USERNAME = ""
+MQTT_PASSWORD = ""
+MQTT_TOPIC_FILE = "./topic.json"
+```
+
+</div>
+<div>
     <h3>2. Настройка топиков</h3>
     <p>Файл topic.json содержит список топиков по которым будет подписываться:</p>
 
@@ -152,11 +171,11 @@ $ cd WB-8
 
 <h3>📌 Описание полей</h3>
 <ul>
-    <li><code>Server</code> — адрес API сервера</li>
-    <li><code>ClientID</code> — email клиента</li>
-    <li><code>Token</code> — токен авторизации</li>
-    <li><code>ControllerID</code> — идентификатор устройства</li>
-    <li><code>SensorReadings</code> — объект с данными датчиков
+    <li><code>server</code> — адрес API сервера</li>
+    <li><code>client_id</code> — email клиента</li>
+    <li><code>token</code> — токен авторизации</li>
+    <li><code>controller_id</code> — идентификатор устройства</li>
+    <li><code>sensor_readings</code> — объект с данными датчиков
          <ul>
             <li>ключ — MQTT-топик</li>
             <li>значение — текущее значение датчика</li>
