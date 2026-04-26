@@ -58,7 +58,7 @@ nano config.env
 nano topic.json
 
 # Вариант 1: Запуск вручную
-./wb8
+./app
 
 # Вариант 2: Автозапуск
 sudo ./install_autostart.sh
