@@ -38,7 +38,7 @@
 ├── config.env                  # Переменные окружения
 ├── topic.json                  # Список MQTT-топиков
 ├── LICENSE                     # Лицензия
-├── wb8                         # Бинарный файл приложения
+├── app                         # Бинарный файл приложения
 └── install_autostart.sh        # Устанавливает автозапуск Cron
 ```
 
@@ -47,9 +47,9 @@
     <h2>📥 Вариант 1: Быстрый старт</h2>
 
 ```bash
-wget https://github.com/Clyckov34/MQTT_Sensor_Forwarder/releases/download/wb8-2.1.0/WB-8.zip
-unzip WB-8.zip
-cd WB-8
+wget https://github.com/Clyckov34/MQTT-API-Relay/releases/download/app-2.1.0/app.zip
+unzip app.zip
+cd app
 
 # настроить конфиг
 nano config.env
@@ -71,8 +71,8 @@ sudo ./install_autostart.sh
 
 | Платформа          | Команда |
 |--------------------|--------|
-| Wiren Board (ARMv7) | `GOOS=linux GOARCH=arm GOARM=7 go build -o wb8 cmd/main.go` |
-| Linux (x64)        | `go build -o wb8 cmd/main.go` |
+| Wiren Board (ARMv7) | `GOOS=linux GOARCH=arm GOARM=7 go build -o app cmd/main.go` |
+| Linux (x64)        | `go build -o app cmd/main.go` |
 
 </div>
 <div>
