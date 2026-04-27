@@ -37,6 +37,7 @@
 ```
 ├── config.env                  # Переменные окружения
 ├── topic.json                  # Список MQTT-топиков
+├── app.log                     # Запись логов 
 ├── LICENSE                     # Лицензия
 ├── app                         # Бинарный файл приложения
 └── install_autostart.sh        # Устанавливает автозапуск Cron
@@ -47,7 +48,7 @@
     <h2>📥 Вариант 1: Быстрый старт</h2>
 
 ```bash
-wget https://github.com/Clyckov34/MQTT-API-Relay/releases/download/app-2.1.0/app.zip
+wget https://github.com/Clyckov34/MQTT-API-Relay/releases/download/app-2.2.0/app.zip
 unzip app.zip
 cd app
 

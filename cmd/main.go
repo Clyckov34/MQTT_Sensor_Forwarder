@@ -2,8 +2,8 @@ package main
 
 import (
 	"MQTT/internal/config"
+	"MQTT/internal/logging"
 	"MQTT/internal/mqtt"
-	"fmt"
 
 	"log"
 )
@@ -27,14 +27,16 @@ func main() {
 	// Запрашиваем готовые топики с покозаниями
 	clientSensor, err := mqtt.RunApp(params)
 	if err != nil {
+		logging.LogToFile(err, "ERROR MQTT: ")
 		log.Fatalln(err)
 	}
 
 	// Отправляем данные на сервер
 	statusCode, err := mqtt.SendJsonPOST(clientSensor)
 	if err != nil {
+		logging.LogToFile(statusCode, "ERROR Server: ")
 		log.Fatalln(err)
 	}
 
-	fmt.Printf("\nHTTP Status: %v\n", statusCode)
+	logging.LogToFile(statusCode, "OK Server: ")
 }

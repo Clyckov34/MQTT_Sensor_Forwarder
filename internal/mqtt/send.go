@@ -24,8 +24,6 @@ func SendJsonPOST(c Client) (statusCode int, err error) {
 		return 0, err
 	}
 
-	outputToTerminal(reqBody)
-
 	ctx, _ := context.WithTimeout(context.Background(), time.Duration(10*time.Second))
 	req, err := http.NewRequestWithContext(ctx, http.MethodPost, c.Server, bytes.NewBuffer(reqBody))
 	if err != nil {
@@ -47,9 +45,4 @@ func SendJsonPOST(c Client) (statusCode int, err error) {
 	}
 
 	return resp.StatusCode, nil
-}
-
-// outputToTerminal вывводит данные в консоль кльлрые отправит на удаленый сервер
-func outputToTerminal(data []byte) {
-	fmt.Println(string(data))
 }
