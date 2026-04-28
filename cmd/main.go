@@ -4,6 +4,7 @@ import (
 	"MQTT/internal/config"
 	"MQTT/internal/mqtt"
 	"MQTT/pkg/logging"
+	"os"
 
 	"log"
 )
@@ -28,7 +29,7 @@ func main() {
 	clientSensor, err := mqtt.RunApp(params)
 	if err != nil {
 		logging.LogToFile(err, `"ERROR" MQTT: `)
-		log.Fatalln(err)
+		os.Exit(1)
 	}
 
 	logging.LogToFile(clientSensor, `"OK" MQTT: `)
@@ -37,7 +38,7 @@ func main() {
 	status, err := mqtt.SendJsonPOST(clientSensor)
 	if err != nil {
 		logging.LogToFile(status+" "+err.Error(), `"ERROR" SERVER: `)
-		log.Fatalln(err)
+		os.Exit(1)
 	}
 
 	logging.LogToFile(status, `"OK" SERVER: `)
