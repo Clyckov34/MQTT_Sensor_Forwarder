@@ -49,7 +49,7 @@
     <h2>📥 Вариант 1: Быстрый старт</h2>
 
 ```bash
-wget https://github.com/Clyckov34/MQTT-API-Relay/releases/download/app-2.4.0/app.zip
+wget https://github.com/Clyckov34/MQTT-API-Relay/releases/download/app-3.0.0/app.zip 
 unzip app.zip
 cd app
 
