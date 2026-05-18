@@ -1,0 +1,12 @@
+server:
+  ip: "https://my_server.ru/post" 
+  login: "Login"
+  token: "my_token"
+  controller_id: 1241
+
+mqtt:
+  ip: "localhost"
+  port: 1883
+  login: ""
+  password: ""
+  file_topic: "./topic.json"

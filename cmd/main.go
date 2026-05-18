@@ -12,7 +12,7 @@ import (
 var params *config.Config
 
 func init() {
-	pr, err := config.LoadEnvFile("./config.env")
+	pr, err := config.LoadYamlFile("./config.yaml")
 	if err != nil {
 		log.Fatalln(err)
 	}

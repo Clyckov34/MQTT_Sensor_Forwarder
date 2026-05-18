@@ -24,16 +24,16 @@ type TopicJSON struct {
 // NewClient инциализация приложение
 func newClient(s *config.Config) (*mqtt.ClientOptions, error) {
 	opt := mqtt.NewClientOptions()
-	opt.AddBroker(fmt.Sprintf("tcp://%v:%v", s.MqttServer, s.MqttPort))
+	opt.AddBroker(fmt.Sprintf("tcp://%v:%v", s.Mqtt.Ip, s.Mqtt.Port))
 
 	opt.SetClientID("avtomatika_MQT")
 	opt.SetKeepAlive(2 * time.Second)
 	opt.SetPingTimeout(1 * time.Second)
 	opt.SetCleanSession(true)
 
-	if len(s.MqttUserName) > 0 && len(s.MqttPassword) > 0 {
-		opt.SetUsername(s.MqttUserName)
-		opt.SetPassword(s.MqttPassword)
+	if len(s.Mqtt.Login) > 0 && len(s.Mqtt.Password) > 0 {
+		opt.SetUsername(s.Mqtt.Login)
+		opt.SetPassword(s.Mqtt.Password)
 	}
 
 	return opt, nil

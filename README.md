@@ -36,7 +36,7 @@
     <h2>📂 Структура проекта</h2>
 
 ```
-├── config.env                  # Переменные окружения
+├── config.yaml                 # Конфигурации
 ├── topic.json                  # Список MQTT-топиков
 ├── app.log                     # Запись логов 
 ├── LICENSE                     # Лицензия
@@ -54,7 +54,7 @@ unzip app.zip
 cd app
 
 # настроить конфиг
-nano config.env
+nano config.yaml
 
 # настроить топик
 nano topic.json
@@ -80,36 +80,45 @@ sudo ./install_autostart.sh
 </div>
 <div>
     <h2>🔧 Настройка</h2>
-    <h3>1. Настройка окружения</h3>
-    <p>Откройте файл config.env и укажите параметры:</p>
-    <ul>
-        <li><code>SERVER</code> - Адрес сервера куда будут отправляться показания датчиков <code>string</code> метод <code>POST</code></li>
-        <li><code>CONTROLLER_ID</code> - Идентификатор контроллера <code>integer</code></li>
-        <li><code>CLIENT_ID</code> - Идентификатор клиента <code>integer</code></li>
-        <li><code>CLIENT_TOKEN</code> - Токен клиента <code>string</code></li>
-        <li><code>MQTT_SERVER</code> - URL (IP) адрес MQTT cервера <code>string</code></li>
-        <li><code>MQTT_PORT</code> - Порт MQTT-сервера <code>integer</code></li>
-        <li><code>MQTT_TOPIC_FILE</code> - Путь к файлу topic.json <code>string</code></li>
-        <li><code>MQTT_USERNAME</code> - Логин MQTT-сервера <code>string</code> <code>Дополнительное поле</code></li>
-        <li><code>MQTT_PASSWORD</code> - Пароль MQTT-сервера <code>string</code> <code>Дополнительное поле</code></li> 
-    </ul>
+    <h3>1. Настройка конфигурации</h3>
+    <p>Откройте файл config.yaml и укажите параметры:</p>
+    <ol>
+        Server:
+        <ul>
+            <li><code>ip</code> - Адрес сервера куда будут отправляться показания датчиков <code>POST</code></li> 
+            <li><code>login</code> - Логин клиента <code>string</code></li> 
+            <li><code>token</code> - Токен клиента <code>string</code></li> 
+            <li><code>controller_id</code> - Идентификатор контроллера <code>integer</code></li> 
+        </ul>
+    </ol>
+    <ol>
+        mqtt
+        <ul>
+            <li><code>ip</code> - IP Адрес Брокера <code>string</code></li> 
+            <li><code>port</code> - IP PORT Брокера <code>integer</code></li>
+            <li><code>login</code> - Логин MQTT-сервера <code>string</code> <code>Дополнительное поле</code></li> 
+            <li><code>password</code> - Пароль MQTT-сервера <code>string</code> <code>Дополнительное поле</code></li> 
+            <li><code>file_topic</code> - Путь к файлу topic.json <code>string</code></li> 
+        </ul>
+    <ol>
 </div>
 <div>
-<p>Пример файла окружения config.env</p>
+<p>Пример файла окружения config.yaml</p>
 
 ```code
-SERVER = "https://my_server_cloud.ru/post"
-CONTROLLER_ID = 121
+server:
+  ip: "https://my_server.ru/post" 
+  lofin: "my_login"
+  token: "my_token"
+  controller_id: 12
 
-CLIENT_ID = 3241234
-CLIENT_TOKEN = "qWeRtYuIoPaDfGHhkfwelwfk"
+mqtt:
+  ip: "localhost"
+  port: 1883
+  login: ""
+  password: ""
+  file_topic: "./topic.json"
 
-# MQTT
-MQTT_SERVER = "localhost"
-MQTT_PORT = 1883
-MQTT_USERNAME = ""
-MQTT_PASSWORD = ""
-MQTT_TOPIC_FILE = "./topic.json"
 ```
 
 </div>
@@ -150,6 +159,7 @@ MQTT_TOPIC_FILE = "./topic.json"
 {
   "server": "https://httpbin.org/post",
   "client_id": "244235",
+  "login": "Login",
   "token": "Wefefor34rmcfree22svFFE",
   "controller_id": "000001",
   "sensor_readings": {
@@ -173,6 +183,7 @@ MQTT_TOPIC_FILE = "./topic.json"
 <ul>
     <li><code>server</code> — адрес API сервера</li>
     <li><code>client_id</code> — идентификатор клиента</li>
+    <li><code>login</code> — логин авторизации</li>
     <li><code>token</code> — токен авторизации</li>
     <li><code>controller_id</code> — идентификатор устройства</li>
     <li><code>sensor_readings</code> — объект с данными датчиков

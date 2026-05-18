@@ -24,7 +24,7 @@ func RunApp(s *config.Config) (Client, error) {
 	}
 	defer client.Disconnect(250)
 
-	topicPathAndQoS, err := getTopikFile(s.MqttTopicFile)
+	topicPathAndQoS, err := getTopikFile(s.Mqtt.FileTopic)
 	if err != nil {
 		return Client{}, err
 	}
@@ -108,10 +108,11 @@ func buildClient(s *config.Config, topics indication, mu *sync.RWMutex) Client {
 	}
 
 	return Client{
-		Server:         s.Server,
-		ClientID:       s.ClientID,
-		Token:          s.ClientToken,
-		ControllerID:   s.ControllerID,
+		Server:         s.Server.Ip,
+		ClientID:       s.Server.ControllerId,
+		Login:          s.Server.Login,
+		Token:          s.Server.Token,
+		ControllerID:   s.Server.ControllerId,
 		SensorReadings: result,
 	}
 }

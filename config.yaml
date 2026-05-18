@@ -1,0 +1,12 @@
+server:
+  ip: "https://httpbin.org/post" 
+  login: "Login"
+  token: "fff4f44kf4f"
+  controller_id: 1241
+
+mqtt:
+  ip: "10.168.50.106"
+  port: 1883
+  login: ""
+  password: ""
+  file_topic: "./topic.json"
