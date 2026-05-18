@@ -83,7 +83,7 @@ sudo ./install_autostart.sh
     <h3>1. Настройка конфигурации</h3>
     <p>Откройте файл config.yaml и укажите параметры:</p>
     <ol>
-        Server:
+        server:
         <ul>
             <li><code>ip</code> - Адрес сервера куда будут отправляться показания датчиков <code>POST</code></li> 
             <li><code>login</code> - Логин клиента <code>string</code></li> 
