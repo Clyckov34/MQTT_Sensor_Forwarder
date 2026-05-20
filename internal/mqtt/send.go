@@ -12,7 +12,6 @@ type Client struct {
 	Server         string             `json:"server"`
 	ClientID       int                `json:"client_id"`
 	Token          string             `json:"token"`
-	Login          string             `json:"login"`
 	ControllerID   int                `json:"controller_id"`
 	SensorReadings map[string]float64 `json:"sensor_readings"`
 }

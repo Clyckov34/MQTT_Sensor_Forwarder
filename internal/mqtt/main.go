@@ -110,7 +110,6 @@ func buildClient(s *config.Config, topics indication, mu *sync.RWMutex) Client {
 	return Client{
 		Server:         s.Server.Ip,
 		ClientID:       s.Server.ControllerId,
-		Login:          s.Server.Login,
 		Token:          s.Server.Token,
 		ControllerID:   s.Server.ControllerId,
 		SensorReadings: result,

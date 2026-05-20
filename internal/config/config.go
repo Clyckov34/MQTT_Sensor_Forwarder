@@ -17,7 +17,6 @@ type ServerConfig struct {
 	Ip           string `yaml:"ip" validate:"required"`
 	Token        string `yaml:"token" validate:"required"`
 	ControllerId int    `yaml:"controller_id" validate:"required"`
-	Login        string `yaml:"login" validate:"required"`
 }
 
 type MqttConfig struct {

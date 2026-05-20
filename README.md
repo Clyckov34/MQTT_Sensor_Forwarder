@@ -11,7 +11,7 @@
 ![Stars](https://img.shields.io/github/stars/Clyckov34/MQTT_Sensor_Forwarder?style=social)
 
 <div>
-    <img src="_example/image.png" width="100%">
+    <img src="image.png" width="100%">
 </div>
 <div>
     <h2>Особенности:</h2>
@@ -47,9 +47,10 @@
 </div>
 <div>
     <h2>📥 Вариант 1: Быстрый старт</h2>
+    <p>Скачайте последний релиз <a href="https://github.com/Clyckov34/MQTT-API-Relay/releases">скрипта</a></p>
+
 
 ```bash
-wget https://github.com/Clyckov34/MQTT-API-Relay/releases/download/app-3.0.0/app.zip 
 unzip app.zip
 cd app
 
@@ -85,8 +86,7 @@ sudo ./install_autostart.sh
     <ol>
         server:
         <ul>
-            <li><code>ip</code> - Адрес сервера куда будут отправляться показания датчиков <code>POST</code></li> 
-            <li><code>login</code> - Логин клиента <code>string</code></li> 
+            <li><code>ip</code> - Адрес сервера куда будут отправляться показания датчиков <code>POST</code></li>  
             <li><code>token</code> - Токен клиента <code>string</code></li> 
             <li><code>controller_id</code> - Идентификатор контроллера <code>integer</code></li> 
         </ul>
@@ -108,7 +108,6 @@ sudo ./install_autostart.sh
 ```code
 server:
   ip: "https://my_server.ru/post" 
-  lofin: "my_login"
   token: "my_token"
   controller_id: 12
 
@@ -159,7 +158,6 @@ mqtt:
 {
   "server": "https://httpbin.org/post",
   "client_id": "244235",
-  "login": "Login",
   "token": "Wefefor34rmcfree22svFFE",
   "controller_id": "000001",
   "sensor_readings": {
@@ -183,7 +181,6 @@ mqtt:
 <ul>
     <li><code>server</code> — адрес API сервера</li>
     <li><code>client_id</code> — идентификатор клиента</li>
-    <li><code>login</code> — логин авторизации</li>
     <li><code>token</code> — токен авторизации</li>
     <li><code>controller_id</code> — идентификатор устройства</li>
     <li><code>sensor_readings</code> — объект с данными датчиков
