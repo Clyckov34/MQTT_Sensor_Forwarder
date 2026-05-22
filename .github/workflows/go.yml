@@ -1,0 +1,43 @@
+name: Go Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.26.1'
+
+      - name: Get dependencies
+        run: |
+          go mod download
+
+      - name: Build for Linux/ARMv7
+        env:
+          GOOS: linux
+          GOARCH: arm
+          GOARM: 7
+        run: |
+          go build -o app cmd/main.go
+
+      - name: Run tests
+        run: |
+          go test -v ./...
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-armv7-binary
+          path: app
